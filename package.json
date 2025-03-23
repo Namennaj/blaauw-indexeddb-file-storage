@@ -1,0 +1,25 @@
+{
+  "name": "blaauw-indexeddb-file-storage",
+  "version": "1.0.0",
+  "description": "A project for file caching using Workbox.",
+  "main": "dist/app.js",
+  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js"
+  },
+  "dependencies": {
+    "workbox-core": "^6.4.1",
+    "workbox-precaching": "^6.4.1",
+    "workbox-routing": "^6.4.1",
+    "workbox-strategies": "^6.4.1"
+  },
+  "devDependencies": {
+    "indexeddb-js": "^0.0.14",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "author": "",
+  "license": "ISC"
+}
