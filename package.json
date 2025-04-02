@@ -5,15 +5,31 @@
   "main": "dist/app.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build": "tsc",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "indexeddb-js": "^0.0.14",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
   },
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "indexeddb",
+    "file storage",
+    "upload",
+    "download",
+    "offline",
+    "cache"
+  ],
+  "author": "JJ Human blaauwspits@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Namennaj/blaauw-indexeddb-file-storage.git"
+  }
 }

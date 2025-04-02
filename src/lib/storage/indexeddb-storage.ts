@@ -245,6 +245,40 @@ export async function removeUploadMetadata(id: number): Promise<void> {
   });
 }
 
+export async function updateUploadMetadata(
+  id: number,
+  metadata: Partial<UploadMetadata>
+): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(UPLOADS_OBJECT_STORE_NAME, 'readwrite');
+    const objectStore = transaction.objectStore(UPLOADS_OBJECT_STORE_NAME);
+    const request = objectStore.get(id);
+
+    request.onsuccess = (event) => {
+      const existingMetadata = (event.target as IDBRequest).result as UploadMetadata;
+      if (!existingMetadata) {
+        reject(new Error(`Upload metadata with id ${id} not found`));
+        return;
+      }
+
+      const updatedMetadata = { ...existingMetadata, ...metadata };
+      const updateRequest = objectStore.put(updatedMetadata);
+
+      updateRequest.onsuccess = () => resolve();
+      updateRequest.onerror = (event) => {
+        console.error('IndexedDB error updating upload metadata', event);
+        reject(new Error('IndexedDB error updating upload metadata'));
+      };
+    };
+
+    request.onerror = (event) => {
+      console.error('IndexedDB error getting upload metadata for update', event);
+      reject(new Error('IndexedDB error getting upload metadata for update'));
+    };
+  });
+}
+
 export async function getAllFilesFromDB(): Promise<FileData[]> {
   const db = await openDB();
   return new Promise((resolve, reject) => {
@@ -459,6 +493,40 @@ export async function getDownloadMetadataByDownloadStatus(
       reject(
         new Error('IndexedDB error getting download metadata by download status')
       );
+    };
+  });
+}
+
+export async function updateDownloadMetadata(
+  id: number,
+  metadata: Partial<DownloadMetadata>
+): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(DOWNLOADS_OBJECT_STORE_NAME, 'readwrite');
+    const objectStore = transaction.objectStore(DOWNLOADS_OBJECT_STORE_NAME);
+    const request = objectStore.get(id);
+
+    request.onsuccess = (event) => {
+      const existingMetadata = (event.target as IDBRequest).result as DownloadMetadata;
+      if (!existingMetadata) {
+        reject(new Error(`Download metadata with id ${id} not found`));
+        return;
+      }
+
+      const updatedMetadata = { ...existingMetadata, ...metadata };
+      const updateRequest = objectStore.put(updatedMetadata);
+
+      updateRequest.onsuccess = () => resolve();
+      updateRequest.onerror = (event) => {
+        console.error('IndexedDB error updating download metadata', event);
+        reject(new Error('IndexedDB error updating download metadata'));
+      };
+    };
+
+    request.onerror = (event) => {
+      console.error('IndexedDB error getting download metadata for update', event);
+      reject(new Error('IndexedDB error getting download metadata for update'));
     };
   });
 }

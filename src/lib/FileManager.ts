@@ -1,4 +1,5 @@
-import { addFileToDB, removeFileFromDB, getFileFromDB, getAllFilesFromDB, clearAllFilesFromDB, setDBName, replaceFileInDB, addUploadMetadata, removeUploadMetadata as removeUploadMetadataFromDB, getAllUploadMetadata, clearUploadMetadata, getUploadMetadataByUploadStatus, deleteDatabase, addDownloadMetadata, getDownloadMetadata, removeDownloadMetadata as removeDownloadMetadataFromDB, getAllDownloadMetadata, clearDownloadMetadata as clearDownloadMetadataFromDB, getDownloadMetadataByDownloadStatus } from './storage/indexeddb-storage.js';
+import { addFileToDB, removeFileFromDB, getFileFromDB, getAllFilesFromDB, clearAllFilesFromDB, setDBName, replaceFileInDB, addUploadMetadata, removeUploadMetadata as removeUploadMetadataFromDB, getAllUploadMetadata, clearUploadMetadata, getUploadMetadataByUploadStatus, deleteDatabase, addDownloadMetadata, getDownloadMetadata, removeDownloadMetadata as removeDownloadMetadataFromDB, getAllDownloadMetadata, clearDownloadMetadata as clearDownloadMetadataFromDB, 
+  getDownloadMetadataByDownloadStatus, updateUploadMetadata, updateDownloadMetadata } from './storage/indexeddb-storage.js';
 import { FileData, UploadMetadata, UploadStatus, DownloadMetadata, DownloadStatus } from '../types/index.js';
 
 export class FileManager {
@@ -128,5 +129,15 @@ export class FileManager {
   public async getDownloadMetadataByDownloadStatus(downloadStatus: DownloadStatus): Promise<DownloadMetadata[]> {
     //console.log(`Getting download metadata by download status: ${downloadStatus}`);
     return await getDownloadMetadataByDownloadStatus(downloadStatus);
+  }
+
+  public async updateUploadMetadata(id: number, metadata: Partial<UploadMetadata>): Promise<void> {
+    console.log(`Updating upload metadata with ID: ${id}`);
+    await updateUploadMetadata(id, metadata);
+  }
+
+  public async updateDownloadMetadata(id: number, metadata: Partial<DownloadMetadata>): Promise<void> {
+    console.log(`Updating download metadata with ID: ${id}`);
+    await updateDownloadMetadata(id, metadata);
   }
 }
